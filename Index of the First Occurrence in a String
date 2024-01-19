@@ -19,3 +19,18 @@ public:
         return -1;
     }
 };
+
+
+/////// OR //////
+
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        if(needl == "")
+            return 0;
+        int found = haystack.find(needle);
+        if(found == string::npos)
+            return -1;
+        return found;
+    }
+};

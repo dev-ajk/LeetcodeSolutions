@@ -6,8 +6,12 @@ public:
         long actualSum = (long)n * (n + 1) / 2;
 
         long sum = 0;
-        for (int element : nums) {
+        /*for (int element : nums) {
             sum += element;
+        }*/
+
+        for ( int e=0; e<n; e++){
+            sum += nums[e];
         }
 
         return (int)(actualSum - sum);

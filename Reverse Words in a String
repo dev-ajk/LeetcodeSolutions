@@ -1,0 +1,82 @@
+############### LEETCODE PROBLEM 151 #################
+
+Given an input string s, reverse the order of the words.
+
+A word is defined as a sequence of non-space characters. The words in s will be separated by at least one space.
+
+Return a string of the words in reverse order concatenated by a single space.
+
+Note that s may contain leading or trailing spaces or multiple spaces between two words. The returned string should only have a single space separating the words. Do not include any extra spaces.
+
+ 
+
+Example 1:
+
+Input: s = "the sky is blue"
+Output: "blue is sky the"
+Example 2:
+
+Input: s = "  hello world  "
+Output: "world hello"
+Explanation: Your reversed string should not contain leading or trailing spaces.
+Example 3:
+
+Input: s = "a good   example"
+Output: "example good a"
+Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
+ 
+
+Constraints:
+
+1 <= s.length <= 10^4
+s contains English letters (upper-case and lower-case), digits, and spaces ' '.
+There is at least one word in s.
+
+
+################ PROBLEM CODE ##################
+
+##### CODE 1 #####
+class Solution
+{
+public:
+    string reverseWords(string s)
+    {
+        vector<string> words;
+        stringstream ss(s);
+        string word;
+        while (ss >> word)
+        {
+            words.push_back(word);
+        }
+        reverse(words.begin(), words.end());
+        string result;
+        for (auto& i : words)
+        {
+            result += i + string(" ", 1);
+        }
+        result.pop_back();
+        return result;
+    }
+};
+
+
+
+
+###### CODE 2 ######
+
+class Solution {
+public:
+    string reverseWords(string s) {
+        stringstream ss(s);
+        string words;
+        string ans;
+        //we gonna apply loop through each word in the stringstream
+        while (ss >> words) {   
+            if (ans != "")  //if the ans is not empty add the current word with " "(space) and the existing ans
+                ans = words + " " + ans;
+            else    //else, just set the and to the current words
+                ans = words + ans;
+        }
+        return ans; //returning the final reversed words in a string
+    }
+};

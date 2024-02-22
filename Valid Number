@@ -1,0 +1,97 @@
+############## LEETCODE PROBLEM 65 ###############
+
+A valid number can be split up into these components (in order):
+
+1. A decimal number or an integer.
+2. (Optional) An 'e' or 'E', followed by an integer.
+
+A decimal number can be split up into these components (in order):
+
+#1. (Optional) A sign character (either '+' or '-').
+#2. One of the following formats:
+  #A. One or more digits, followed by a dot '.'.
+  #B. One or more digits, followed by a dot '.', followed by one or more digits.
+  #C. A dot '.', followed by one or more digits.
+
+An integer can be split up into these components (in order):
+
+#1. (Optional) A sign character (either '+' or '-').
+#2. One or more digits.
+
+For example, 
+all the following are valid numbers: 
+["2", "0089", "-0.1", "+3.14", "4.", "-.9", "2e10", "-90E3", "3e+7", "+6e-1", "53.5e93", "-123.456e789"], 
+
+while the following are not valid numbers: 
+["abc", "1a", "1e", "e3", "99e2.5", "--6", "-+3", "95a54e53"].
+
+Given a string s, return true if s is a valid number.
+
+ 
+
+Example 1:
+
+Input: s = "0"
+Output: true
+Example 2:
+
+Input: s = "e"
+Output: false
+Example 3:
+
+Input: s = "."
+Output: false
+ 
+
+Constraints:
+
+1 <= s.length <= 20
+s consists of only English letters (both uppercase and lowercase), digits (0-9), plus '+', minus '-', or dot '.'
+
+############### CODE ##############
+
+class Solution {
+public:
+    bool isNumber(string s) {
+        bool digitSeen = false, eSeen = false, dotSeen = false;
+        int countPlusMinus = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.at(i);
+
+            // Digit
+            if (isdigit(ch)) {
+                digitSeen = true;
+            } else if (ch == '+' || ch == '-') {
+                // Allow sign only at the beginning before any digits or 'e'
+                if (countPlusMinus == 2 || (i > 0 && (s[i - 1] != 'e' && s[i - 1] != 'E'))) {
+                    return false;
+                }
+                if (i == s.length() - 1) {
+                    return false;
+                }
+                countPlusMinus++;
+            } else if (ch == '.') {
+                // Allow dot only once and not after 'e'
+                if (eSeen || dotSeen) {
+                    return false;
+                }
+                if (i == s.length() - 1 && !digitSeen) {
+                    return false;
+                }
+                dotSeen = true;
+            } else if (ch == 'e' || ch == 'E') {
+                // Allow 'e' only once after digits and reset digitSeen for potential digits after it
+                if (eSeen || !digitSeen || i == s.length() - 1) {
+                    return false;
+                }
+                eSeen = true;
+                digitSeen = false; // Reset for potential digits after 'e'
+            } else {
+                return false;
+            }
+        }
+
+        return digitSeen;
+    }
+};
